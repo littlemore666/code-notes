@@ -27,6 +27,7 @@ public class GrpcWatcherServer extends WatcherGrpc.WatcherImplBase {
         /* The port on which the server should run */
         int port = 50051;
         server = ServerBuilder.forPort(port)
+                //可绑定多个服务接口
                 .addService(this)
                 .build()
                 .start();
@@ -76,6 +77,8 @@ public class GrpcWatcherServer extends WatcherGrpc.WatcherImplBase {
     @Override
     public void sayHello(RegisterRequest request, StreamObserver<HelloReply> responseObserver) {
         observerMap.put(request.getName(),responseObserver);
+        HelloReply reply = HelloReply.newBuilder().setMessage("server2.0").build();
+        responseObserver.onNext(reply);
     }
 
     public void notifyClient(String message){

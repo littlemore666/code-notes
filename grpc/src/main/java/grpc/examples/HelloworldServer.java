@@ -1,5 +1,6 @@
 package grpc.examples;
 
+import grpc.watcher.GrpcWatcherServer;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import io.grpc.stub.StreamObserver;
@@ -21,7 +22,8 @@ public class HelloworldServer {
         /* The port on which the server should run */
         int port = 50051;
         server = ServerBuilder.forPort(port)
-                .addService(new GreeterImpl())
+                //绑定多个服务接口
+                .addService(new GreeterImpl()).addService(new GrpcWatcherServer())
                 .build()
                 .start();
         logger.info("Server started, listening on " + port);
